@@ -5,11 +5,12 @@ import random
 import time
 from bitarray import bitarray
 
-makeid = lambda: hashlib.sha256(str(
+makeid = lambda: hashlib.sha256(
+    str(
         random.randint(-999999999999999999999, 999999999999999999999 + time.
-                       time())).encode()
-).hexdigest() + hashlib.sha512(str(uuid1()).encode()).hexdigest(
-) + str(uuid4()) + str(uuid5(uuid4(), str(uuid1())))
+                       time())).encode()).hexdigest() + hashlib.sha512(
+                           str(uuid1()).encode()).hexdigest() + str(uuid4(
+                           )) + str(uuid5(uuid4(), str(uuid1())))
 
 
 def fill(data: bitarray, length: int) -> bitarray:
@@ -46,7 +47,8 @@ def decrypt(encrypted_ba, key) -> bitarray:
         x.frombytes(encrypted_ba)
         encrypted_ba = x
     elif type(encrypted_ba) != bitarray:
-        raise TypeError("`encrypted_ba` must be a bitarray or bytes-like object.")
+        raise TypeError(
+            "`encrypted_ba` must be a bitarray or bytes-like object.")
     if type(key) == bytes:
         x = bitarray()
         x.frombytes(key)

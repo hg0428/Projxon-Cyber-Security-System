@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="Projxon Cyber Security System",                     # This is the name of the package
-    version="0.0.1",                        # The initial release version
+    version="0.0.2",                        # The initial release version
     author="Hudson Gouge",                     # Full name of the author
     description="A fast and unbreakable encrytion system.",
     long_description=long_description,      # Long description read from the the readme file

@@ -1,6 +1,5 @@
 from PCSS import encrypt, decrypt, makeid
 
-
 # Encode it so that we have a bytes object to pass to encrypt
 text = "Hello World!"
 key = "key"
@@ -9,7 +8,6 @@ key = "key"
 
 encoded_text = text.encode()
 encoded_key = key.encode()
-
 
 # Encrypt the text
 encrypted_bitarray = encrypt(encoded_text, encoded_key)
@@ -25,8 +23,15 @@ decrypted_bytes = decrypted_bitarray.tobytes()
 # Remove the trailing 0s and convert to string
 decrypted_text = decrypted_bytes.rstrip(b'\x00').decode()
 
-print(decrypted_text, text == decrypted_text) 
+print(decrypted_text, text == decrypted_text)
 # Hello World! True
 
-open('t', 'w').write(makeid())
 print(makeid())
+
+from PCSS import makeid
+
+print(makeid())
+# 3fbe99d84c1b9255565c79d758bebba6e011ba2ca0795c5c50d22519adaf99050e74cb261933091fc4c52d6a7581c3681557e4adf495b1cd1314579e962791efc6d5ceb9133de75cd25a20a99d50cf4b7bf927f61dfa298d69d573da101f26a973241224-a5eb-49fa-828b-f86b89d9a4745480679b-4d20-5b8a-a72b-268877dc086a
+# ids will vary.
+
+# These ids are garunteed to be unque, the chance of collision is under 1 / (2^256)

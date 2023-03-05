@@ -12,20 +12,24 @@ makeid = lambda: hashlib.sha256(str(
 ) + str(uuid4()) + str(uuid5(uuid4(), str(uuid1())))
 
 
-def fill(data, length):
+def fill(data: bitarray, length: int) -> bitarray:
     data.extend([0] * (length - len(data)))
     return data
 
 
-def encrypt(ba, key):
-    if type(ba) != bitarray:
+def encrypt(ba, key) -> bitarray:
+    if type(ba) == bytes:
         x = bitarray()
         x.frombytes(ba)
         ba = x
-    if type(key) != bitarray:
+    elif type(ba) != bitarray:
+        raise TypeError("`ba` must be a bitarray or bytes-like object.")
+    if type(key) == bytes:
         x = bitarray()
         x.frombytes(key)
         key = x
+    elif type(key) != bitarray:
+        raise TypeError("`key` must be a bitarray or bytes-like object.")
     ukey = bitarray()
     ukey.frombytes(
         pbkdf2_sha512.hash(key.tobytes(), rounds=65539,
@@ -36,15 +40,19 @@ def encrypt(ba, key):
     return ba
 
 
-def decrypt(encrypted_ba, key):
-    if type(encrypted_ba) != bitarray:
+def decrypt(encrypted_ba, key) -> bitarray:
+    if type(encrypted_ba) == bytes:
         x = bitarray()
         x.frombytes(encrypted_ba)
         encrypted_ba = x
-    if type(key) != bitarray:
+    elif type(encrypted_ba) != bitarray:
+        raise TypeError("`encrypted_ba` must be a bitarray or bytes-like object.")
+    if type(key) == bytes:
         x = bitarray()
         x.frombytes(key)
         key = x
+    elif type(key) != bitarray:
+        raise TypeError("`key` must be a bitarray or bytes-like object.")
     ukey = bitarray()
     ukey.frombytes(
         pbkdf2_sha512.hash(key.tobytes(), rounds=65539,
@@ -55,7 +63,7 @@ def decrypt(encrypted_ba, key):
     return encrypted_ba
 
 
-x = bitarray([0] * (32 * 30)).tobytes().decode()
-print(x, len(x))
-x = encrypt('hiiiiiii'.encode(), ''.encode())
-print(x, decrypt(x, ''.encode()).tobytes().decode())
+# x = bitarray([0] * (32 * 30)).tobytes().decode()
+# print(x, len(x))
+# x = encrypt('hiiiiiii'.encode(), ''.encode())
+# print(x, decrypt(x, ''.encode()).tobytes().decode())

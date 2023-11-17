@@ -1,7 +1,8 @@
 # What is it?
 A fast and unbreakable encrytion system.
 This library has 3 functions, `makeid`, `encrypt`, and `decrypt`.
-`makeid` will generate a long, almost collision proof code.
+
+`makeid` will generate a long, virtually collision-proof identifier.
 
 These tools can be very useful in login systems.
 
@@ -48,9 +49,7 @@ from PCSS import makeid
 print(makeid()) 
 # 3fbe99d84c1b9255565c79d758bebba6e011ba2ca0795c5c50d22519adaf99050e74cb261933091fc4c52d6a7581c3681557e4adf495b1cd1314579e962791efc6d5ceb9133de75cd25a20a99d50cf4b7bf927f61dfa298d69d573da101f26a973241224-a5eb-49fa-828b-f86b89d9a4745480679b-4d20-5b8a-a72b-268877dc086a
 # ids will vary.
-
-# These ids are garunteed to be unque, the chance of collision is under 1 / (2^256)
-
-
 ```
+These ids are garunteed to be unique, the chance of collision is about 1 / (2.42721841x10^229).
+For refernce, the number of atoms in the universe is estimated to be 10^78.
 

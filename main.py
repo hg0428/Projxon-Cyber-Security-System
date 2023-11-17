@@ -1,4 +1,4 @@
-from PCSS import encrypt, decrypt, makeid
+from PCSS import encrypt, decrypt, makeid, bitarray_to_text
 
 # Encode it so that we have a bytes object to pass to encrypt
 text = "Hello World!"
@@ -17,18 +17,11 @@ print(encrypted_bitarray)
 # Decrypt the bitarray
 decrypted_bitarray = decrypt(encrypted_bitarray, encoded_key)
 
-# Change it back into bytes
-decrypted_bytes = decrypted_bitarray.tobytes()
-
-# Remove the trailing 0s and convert to string
-decrypted_text = decrypted_bytes.rstrip(b'\x00').decode()
+# Convert it back to a string.
+decrypted_text = bitarray_to_text(decrypted_bitarray)
 
 print(decrypted_text, text == decrypted_text)
 # Hello World! True
-
-print(makeid())
-
-from PCSS import makeid
 
 print(makeid())
 # 3fbe99d84c1b9255565c79d758bebba6e011ba2ca0795c5c50d22519adaf99050e74cb261933091fc4c52d6a7581c3681557e4adf495b1cd1314579e962791efc6d5ceb9133de75cd25a20a99d50cf4b7bf927f61dfa298d69d573da101f26a973241224-a5eb-49fa-828b-f86b89d9a4745480679b-4d20-5b8a-a72b-268877dc086a

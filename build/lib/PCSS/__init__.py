@@ -4,84 +4,104 @@ import hashlib
 import random
 import time
 from bitarray import bitarray
+from typing import Union
 
 makeid = lambda: hashlib.sha256(
-    str(
-        random.randint(-999999999999999999999, 999999999999999999999 + time.
-                       time())).encode()).hexdigest() + hashlib.sha512(
-                           str(uuid1()).encode()).hexdigest() + str(uuid4(
-                           )) + str(uuid5(uuid4(), str(uuid1())))
+  str(
+    random.randint(-999999999999999999999, 999999999999999999999 + time.time())
+  ).encode()).hexdigest() + hashlib.sha512(str(uuid1()).encode()).hexdigest(
+  ) + str(uuid4()) + str(uuid5(uuid4(), str(uuid1())))
 
 
 def fill(data: bitarray, length: int) -> bitarray:
-    data.extend([0] * (length - len(data)))
-    return data
+  data.extend([0] * (length - len(data)))
+  return data
 
 
-def encrypt(ba, key) -> bitarray:
-    if type(ba) == bytes:
-        x = bitarray()
-        x.frombytes(ba)
-        ba = x
-    elif type(ba) == str:
-        x = bitarray()
-        x.frombytes(ba.encode())
-        ba = x
-    elif type(ba) != bitarray:
-        raise TypeError("`ba` must be a bitarray or bytes-like object.")
+def encrypt(data: Union[str, bytes, bitarray],
+            key: Union[str, bytes, bitarray, None] = None,
+            final_key: Union[bitarray, None] = None) -> bitarray:
+  if type(data) == bytes:
+    x = bitarray()
+    x.frombytes(data)
+    data = x
+  elif type(data) == str:
+    x = bitarray()
+    x.frombytes(data.encode())
+    data = x
+  elif type(data) != bitarray:
+    raise TypeError("`data` must be a bitarray or bytes-like object.")
+  if final_key == None:
+    if key == None:
+      raise ValueError("Either key OR final_key must be provided.")
     if type(key) == bytes:
-        x = bitarray()
-        x.frombytes(key)
-        key = x
+      x = bitarray()
+      x.frombytes(key)
+      key = x
     elif type(key) == str:
-        x = bitarray()
-        x.frombytes(key.encode())
-        key = x
+      x = bitarray()
+      x.frombytes(key.encode())
+      key = x
     elif type(key) != bitarray:
-        raise TypeError("`key` must be a bitarray or bytes-like object.")
-    ukey = bitarray()
-    ukey.frombytes(
-        pbkdf2_sha512.hash(key.tobytes(), rounds=65539,
-                           salt=key.tobytes()).encode())
-    m = max(len(ba), len(ukey))
-    ba = (fill(ba, m) ^ fill(ukey, m))
-    ba.bytereverse()
-    return ba
+      raise TypeError("`key` must be a bitarray or bytes-like object.")
+    final_key = bitarray()
+    final_key.frombytes(
+      pbkdf2_sha512.hash(key.tobytes(), rounds=65539,
+                         salt=key.tobytes()).encode())
+  if len(final_key) > len(data):
+    final_key = final_key[:len(data)]
+  while len(final_key) < len(data):
+    final_key += final_key[:max(len(data) - len(final_key), len(final_key))]
+  data ^= final_key
+  data.bytereverse()
+  data.reverse()
+  return data
 
 
-def decrypt(encrypted_ba, key) -> bitarray:
-    if type(encrypted_ba) == bytes:
-        x = bitarray()
-        x.frombytes(encrypted_ba)
-        encrypted_ba = x
-    elif type(encrypted_ba) == str:
-        x = bitarray()
-        x.frombytes(encrypted_ba.encode())
-        encrypted_ba = x
-    elif type(encrypted_ba) != bitarray:
-        raise TypeError(
-            "`encrypted_ba` must be a bitarray or bytes-like object.")
+def decrypt(encrypted_data: Union[str, bytes, bitarray],
+            key: Union[str, bytes, bitarray, None] = None,
+            final_key: Union[bitarray, None] = None) -> bitarray:
+  if type(encrypted_data) == bytes:
+    x = bitarray()
+    x.frombytes(encrypted_data)
+    encrypted_data = x
+  elif type(encrypted_data) == str:
+    x = bitarray()
+    x.frombytes(encrypted_data.encode())
+    encrypted_data = x
+  elif type(encrypted_data) != bitarray:
+    raise TypeError(
+      "`encrypted_data` must be a bitarray or bytes-like object.")
+  if final_key == None:
+    if key == None:
+      raise ValueError("Either key OR final_key must be provided.")
     if type(key) == bytes:
-        x = bitarray()
-        x.frombytes(key)
-        key = x
+      x = bitarray()
+      x.frombytes(key)
+      key = x
     elif type(key) == str:
-        x = bitarray()
-        x.frombytes(key.encode())
-        key = x
+      x = bitarray()
+      x.frombytes(key.encode())
+      key = x
     elif type(key) != bitarray:
-        raise TypeError("`key` must be a bitarray or bytes-like object.")
-    ukey = bitarray()
-    ukey.frombytes(
-        pbkdf2_sha512.hash(key.tobytes(), rounds=65539,
-                           salt=key.tobytes()).encode())
-    encrypted_ba.bytereverse()
-    m = max(len(encrypted_ba), len(ukey))
-    encrypted_ba = (fill(encrypted_ba, m) ^ fill(ukey, m))
-    return encrypted_ba
+      raise TypeError("`key` must be a bitarray or bytes-like object.")
+    final_key = bitarray()
+    final_key.frombytes(
+      pbkdf2_sha512.hash(key.tobytes(), rounds=65539,
+                         salt=key.tobytes()).encode())
+  encrypted_data.reverse()
+  encrypted_data.bytereverse()
+  if len(final_key) > len(encrypted_data):
+    final_key = final_key[:len(encrypted_data)]
+  while len(final_key) < len(encrypted_data):
+    final_key += final_key[:max(len(encrypted_data) - len(final_key), len(final_key))]
+  encrypted_data ^= final_key
+  return encrypted_data
 
 
-# x = bitarray([0] * (32 * 30)).tobytes().decode()
-# print(x, len(x))
+def bitarray_to_text(data: bitarray) -> str:
+  return data.tobytes().rstrip(b'\x00').decode()
+
+
 # x = encrypt('hiiiiiii'.encode(), ''.encode())
 # print(x, decrypt(x, ''.encode()).tobytes().decode())

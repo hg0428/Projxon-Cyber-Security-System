@@ -8,7 +8,7 @@ from typing import Union
 
 makeid = lambda: hashlib.sha256(
   str(
-    random.randint(-999999999999999999999, 999999999999999999999 + time.time())
+    random.randint(-2**512, 2**512 + time.time())
   ).encode()).hexdigest() + hashlib.sha512(str(uuid1()).encode()).hexdigest(
   ) + str(uuid4()) + str(uuid5(uuid4(), str(uuid1())))
 

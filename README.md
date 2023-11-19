@@ -6,8 +6,12 @@ This library has 3 functions, `makeid`, `encrypt`, and `decrypt`.
 
 These tools can be very useful in login systems.
 
+# Installation
+You can install it with pip.
+`pip install Projxon-Cyber-Security-System`
 
-# How to use it
+
+# Usage
 
 ## Encyrpt and Decrypt
 ```py

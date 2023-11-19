@@ -21,7 +21,7 @@ def fill(data: bitarray, length: int) -> bitarray:
 def encrypt(data: Union[str, bytes, bitarray],
             key: Union[str, bytes, bitarray, None] = None,
             final_key: Union[bitarray, None] = None,
-            rounds=65639,
+            rounds=None,
             salt=None) -> bitarray:
   """
   Encrypts data using an advanced method including XOR encrytion and byte and bit reversal.
@@ -51,12 +51,16 @@ def encrypt(data: Union[str, bytes, bitarray],
     elif type(key) != bitarray:
       raise TypeError("`key` must be a bitarray or bytes-like object.")
     final_key = bitarray()
+    if rounds == None:
+      rounds = (int(key[:15].to01(), 2) + 100) * 2
     final_key.frombytes(
       pbkdf2_sha512.hash(key.tobytes(),
                          rounds=rounds,
                          salt=salt if salt else key.tobytes()).encode())
   if len(final_key) > len(data):
-    final_key = final_key[:len(data)]
+    final_key = final_key[-len(data):]
+    #TODO: CHAGE THIS BECAUSE THIS DISREGARDS THE END, which is the most important. The rounds only seems to effect the end of it.
+    # final_key = final_key[:len(data)]
   while len(final_key) < len(data):
     final_key += final_key[:max(len(data) - len(final_key), len(final_key))]
   data ^= final_key
@@ -68,7 +72,7 @@ def encrypt(data: Union[str, bytes, bitarray],
 def decrypt(encrypted_data: Union[str, bytes, bitarray],
             key: Union[str, bytes, bitarray, None] = None,
             final_key: Union[bitarray, None] = None,
-            rounds=65639,
+            rounds=None,
             salt=None) -> bitarray:
   """
   Decrypts data that was encrypted using the PCSS.encrypt function. Parameters that do not match will generate an incorrect output.
@@ -97,6 +101,8 @@ def decrypt(encrypted_data: Union[str, bytes, bitarray],
       key = x
     elif type(key) != bitarray:
       raise TypeError("`key` must be a bitarray or bytes-like object.")
+    if rounds == None:
+      rounds = (int(key[:15].to01(), 2) + 100) * 2
     final_key = bitarray()
     final_key.frombytes(
       pbkdf2_sha512.hash(key.tobytes(),
@@ -105,8 +111,9 @@ def decrypt(encrypted_data: Union[str, bytes, bitarray],
   encrypted_data.reverse()
   encrypted_data.bytereverse()
   if len(final_key) > len(encrypted_data):
+    final_key = final_key[-len(encrypted_data):]
     #TODO: CHAGE THIS BECAUSE THIS DISREGARDS THE END, which is the most important. The rounds only seems to effect the end of it.
-    final_key = final_key[:len(encrypted_data)]
+    # final_key = final_key[:len(encrypted_data)]
   while len(final_key) < len(encrypted_data):
     final_key += final_key[:max(
       len(encrypted_data) - len(final_key), len(final_key))]

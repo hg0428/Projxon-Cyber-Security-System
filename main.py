@@ -1,5 +1,14 @@
 from PCSS import encrypt, decrypt, makeid, bitarray_to_text
-
+from PCSS.hash import hash
+print(f"""
+Hash of Hello World!: {hash("Hello World!")}
+Hash of Hello_World!: {hash("Hello_World!")}
+Hash of Hello_World! : {hash("Hello_World! ")}
+Hash of Hello World: {hash("Hello World")}
+Hash of Password#123: {hash("Password#123")}
+Hash of AAAAAAAAAAAA: {hash("AAAAAAAAAAAA")}
+Hash of !#!#!#!#!#!#!#!#: {hash("!#!#!#!#!#!#!#!#")}
+""")
 # Encode it so that we have a bytes object to pass to encrypt
 text = "Hello World!"
 key = "key"

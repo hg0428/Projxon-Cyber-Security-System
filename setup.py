@@ -14,7 +14,7 @@ setuptools.setup(
     packages=setuptools.find_packages(
     ),  # List of all python modules to be installed
     download_url=
-    'https://github.com/hg0428/Projxon-Cyber-Security-System/archive/refs/tags/stable.tar.gz',
+    'https://github.com/hg0428/Projxon-Cyber-Security-System/archive/refs/tags/stable-0.1.1.tar.gz',
     classifiers=[
         'Intended Audience :: Developers',  # Define that your audience are developers
         'Topic :: Software Development :: Build Tools',

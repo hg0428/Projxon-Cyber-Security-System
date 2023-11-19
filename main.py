@@ -1,7 +1,7 @@
 from PCSS import encrypt, decrypt, makeid, bitarray_to_text
 from PCSS.hash import hash
+
 print(f"""
-Hash of Hello World!: {hash("Hello World!")}
 Hash of Hello_World!: {hash("Hello_World!")}
 Hash of Hello_World! : {hash("Hello_World! ")}
 Hash of Hello World: {hash("Hello World")}
@@ -9,10 +9,19 @@ Hash of Password#123: {hash("Password#123")}
 Hash of AAAAAAAAAAAA: {hash("AAAAAAAAAAAA")}
 Hash of !#!#!#!#!#!#!#!#: {hash("!#!#!#!#!#!#!#!#")}
 """)
+# Output:
+"""
+Hash of Hello_World!: 133e15fbd573507fd63714d032547698badcfe1032547698badcfe1032547698badcfe1032547698badcfe1032547698badcfe1032547698badcfe1032547698badcfe1032547698badcfe1032547698badcfe1032547698badcfe1032547698badcfe1032547698badcfe1032547698badcfe1032fe1032547698badcfe1032
+Hash of Hello_World! : 6ac3ec8eac8ea90aafcaeda5832107654ba98fedc32107654ba98fedc32107654ba98fedc32107654ba98fedc32107654ba98fedc32107654ba98fedc32107654ba98fedc32107654ba98fedc32107654ba98fedc32107654ba98fedc32107654ba98fedc32107654ba9854ba98fedc32107654bfeecddc32107654ba98fedc3
+Hash of Hello World: 026b0426c4c941a2c762056789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123ef0123456789abcdef0455766789abcdef012345182439abcdef01234567
+Hash of Password#123: 7ad07a98bc5ffa9e967052b89efcd23016745ab89efcd23016745ab89efcd23016745ab89efcd23016745ab89efcd23016745ab89efcd23016745ab89efcd23016745ab89efcd23016745ab89efcd23016745ab89efcd2301cd23016745ab89efcd26775445ab89efcd2301673a061b89efcd230164f5bacd23016745ab89efb
+Hash of AAAAAAAAAAAA: 4fa183e5c7290b6d4fa183e56789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789ab6789abcdef012345678cddfeef0123456789abcd90acb123456789abce5f106789abcdef0123d6e0f789abcdef01234567
+Hash of !#!#!#!#!#!#!#!#: 5a781e34d2f096bc5a781e34d2f096bcdef89ab45670123cdef89ab45670123cdef89ab45670123cdef89ab45670123cdef89ab45670123cdef89ab45670123cdef23cdef89ab45670123c899baab45670123cdef89d4e8f5670123cdef8a1b5423cdef89ab456792a4b3cdef89ab456700d165ef89ab45670123cdef7067ccc
+"""
+
 # Encode it so that we have a bytes object to pass to encrypt
 text = "Hello World!"
 key = "key"
-# SEE TODO IN __INIT__!!!t
 # Encode it so that we have a bytes object to pass to encrypt
 
 encoded_text = text.encode()

@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
   name="projxon_cyber_security_system",  # This is the name of the package
-  version="0.1.1",  # The initial release version
+  version="0.2.1",  # The initial release version
   author="Hudson Gouge",  # Full name of the author
   description="A fast and unbreakable encrytion system.",
   long_description=
@@ -14,7 +14,7 @@ setuptools.setup(
   packages=setuptools.find_packages(
   ),  # List of all python modules to be installed
   download_url=
-  'https://github.com/hg0428/Projxon-Cyber-Security-System/archive/refs/tags/stable-0.1.1.tar.gz',
+  'https://github.com/hg0428/Projxon-Cyber-Security-System/archive/refs/tags/stable-0.2.1.tar.gz',
   classifiers=[
     'Intended Audience :: Developers',  # Define that your audience are developers
     'Topic :: Software Development :: Build Tools',
@@ -26,5 +26,5 @@ setuptools.setup(
   py_modules=["PCSS"],  # Name of the python package
   package_dir={'': '/home/runner/Projxon-Cyber-Security-System/'
                },  # Directory of the source code of the package
-  install_requires=['bitarray', 'passlib'],
-strict_naming=False)
+  install_requires=['bitarray', 'passlib', 'hashlib', 'base64', 'uuid'],
+  strict_naming=False)

@@ -14,29 +14,32 @@ You can install it with pip.
 
 # Usage
 
-## Encyrpt and Decrypt
+## Encrypt and Decrypt
 ```py
 from PCSS import encrypt, decrypt, makeid, bitarray_to_text
 from PCSS.hash import hash
 
 print(f"""
-Hash of Hi!: {hash("Hi!")}
-Hash of Hello_World!: {hash("Hello_World!")}
-Hash of Hello_World! : {hash("Hello_World! ")}
-Hash of Hello World: {hash("Hello World")}
-Hash of Password#123: {hash("Password#123")}
-Hash of AAAAAAAAAAAA: {hash("AAAAAAAAAAAA")}
-Hash of !#!#!#!#!#!#!#!#: {hash("!#!#!#!#!#!#!#!#")}
+Hash of Hi!: {hash("Hi!", 256)}
+Hash of Hello_World!: {hash("Hello_World!", length=256)}
+Hash of Hello_World! : {hash("Hello_World! ", length=256)}
+Hash of Hello World: {hash("Hello World", length=256)}
+Hash of Password#123: {hash("Password#123", length=256)}
+Hash of AAAAAAAAAAAA: {hash("AAAAAAAAAAAA", length=256)}
+Hash of AAAAAAAAAAAB: {hash("AAAAAAAAAAAB", length=256)}
+Hash of !#!#!#!#!#!#!#!#: {hash("!#!#!#!#!#!#!#!#", length=256)}
 """)
+
 # Output:
 """
-Hash of Hi!: 32aa253325323f2f7a22f52313272b77335b11b25327aab12772a3522522bf77322223233227222ff2ff3b33332a27252b3ff323127b2335ba752f2a1f3b22122b2b23522522af3f22f522a735f273112332f722b227f122b22111f22222532f75327172332271377a2ffb3322232ba22f3bf2223322f73ab12f52f52a1ab332
-Hash of Hello_World!: 0c1c55cb50099c5305199d9500932925530517975755d00b20cc222909550305039275050005905205d7770530c5c0953d50cd9559155729c39101352395c7cc5971b700d925d3d5570500d1c725992c957d500b555950352521dd7b3c505d759d057377005550252b552335d0171071092dd5000959005d53c75170520c5297
-Hash of Hello_World! : 117eb51b771a2557be7fbd710b2231e1e1775227ff13b217e551137e7f55977ddee73e70b0922232a21e773777bb1e155170150172b9713f7f273a3d32737db5ee29af755f75711fb7bf59729efadb12eff722177777e2725e2be7129055075050b55535270302e252213ef752d10b7772b7ba27e5772773732f1f7579777107
-Hash of Hello World: d9ed49a56eea69bc42ce69e89c25bc828bee5d7ece576e6bbb76b94eee779e575daba4be8ece2e8899e2e2bec978b87d7d79a972225e246b687ede897bb556a7e6e8abaebaee6ee282eb45beee4ee5858a8e2e2bcbdbcb84ceee845ee565769cde5ee99958a296e9eee87d774ce82beb8eeaeedceeeb8ec4b8d929e88eebcbea
-Hash of Password#123: acae4c46684ec4cefccce6c61c2e6c330fe4fcc8c12cec2004a4acaec3ea2c0448e8ee464ca2ceee6ca2eea62acaa230e6feccaeadcefeec2ee318ccc382ec6c4ecdee46e2cc664ece2eeaeee424c1eee6cece68e2e0e64ee46dfee8ceccc6eccfc26eecc6eeeceee28aa2a41c1f22ac63ee46660ec8c48c2e4ce6aecea4aeea
-Hash of AAAAAAAAAAAA: b0a0aa00abba00a80a0aaa0a0b089a0aa8ba080aaaaa0bb00b00909a0aaa08ba0800aa0a000aa0a0baa8a00a8b0a000a80ab0a0aaa0aa09a08a00a8a98aa0000aa0a0abbaa0a080aaaba0b000a0aaa90aaa0ab00aaaaab8a9a90aaa080a0aaaaaa0aa88ab0aaa09a90aa088aa0a0a0aa0a00aa00baaab0aaa808a0aba000a008
-Hash of !#!#!#!#!#!#!#!#: beab626ee6e6b66e666bbea622ae26622efafaee2e2b6ae66eeeeeee22ae6626aea62beeee26eefb222ee622ea6eee66ea66e2ee22e6a66e2ae2666f6ee6fee6e2eeb6226622e2a6e2ebf666ee62a2bb2eeeee6a26eee6e2eeeee262ae2e6afa66e2eee6e66e62e626e2aa22ebbea6ee26e6a2abbe26eee62226eeee6a6b6e62
+Hash of Hi!: 293bcd0b497216b999a7e81e2b7cd7530017f44dd53472710d2b44bfea670227
+Hash of Hello_World!: 23c5fc4b5f59a9ebb20c3a88de653214fba07b382c4e0acfe09b76e6b0073cf3
+Hash of Hello_World! : 74d6ae99037683397fadda7da65afa72c0560d6e64319d0c86abe2301b46146d
+Hash of Hello World: cc65180fbca2636fd269c3830dfc3903679f394d10a233ceae9bf9ac5c26a177
+Hash of Password#123: 491d11b7e30323855c9c8fe742c947ee9c4f718f602b0275620bf9c4937dbd1a
+Hash of AAAAAAAAAAAA: 4f14559045890891b74ec030af9d4530097aedd29ed850444b74bc2559730180
+Hash of AAAAAAAAAAAB: 54314d9b51864195a0d4c7f2e0c3b1d623554a6c68d0a40593430b526e982b29
+Hash of !#!#!#!#!#!#!#!#: b3ff1bf0a9f3411e4ce8b95cabbb352d34eb42a7640b67a366f2044daee68235
 """
 x = 'Hello Everyone!'
 print('Hash works?', hash(x) == hash(x))  # True
@@ -49,7 +52,6 @@ key = "key"
 # Encrypt the text
 encrypted_bitarray = encrypt(text, key)
 print(encrypted_bitarray)
-print(bitarray_to_text(encrypted_bitarray))
 
 # Decrypt the bitarray
 decrypted_bitarray = decrypt(encrypted_bitarray, key)
@@ -88,5 +90,17 @@ Generates a long and secure id.
 These ids are garunteed to be unique; the chance of collision is about 1 / (2.42721841x10^229).
 For reference, the number of atoms in the universe is estimated to be 10^78.
 
+### `bitarray_to_text(data: bitarray) -> str`
+Converts a bitarray to a string.
+
 ## PCSS.hash
-### `hash(data: str, length: int = 256, block_size: int = 4) -> str`
+### `hash(data: Union[str, int, bitarray, bytes], length: int = 256, block_size: int = 2, affected_area: int = 0.5, output: str = "hex") -> Union[bitarray, str, int, bytes]`
+Hashes data using the hashing PCSS algorithm.
+The length of the hash is supplied as the length arguemnt and it must be divisible by the block size (which defaults to 4).
+An increased block size results in increased randomness.
+
+`affected_area` is the number of input blocks used in the output block calculation. If it is an integer, it represents a concrete value, and if it is between 0 and 1 it is proportional to the number of blocks. This value is very particular, be careful!
+
+Output can be "hex", "bitarray", "bytes", "base64", "base64-bytes", or "int".
+
+##

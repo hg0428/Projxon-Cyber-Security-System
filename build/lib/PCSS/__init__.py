@@ -14,6 +14,22 @@ makeid = lambda: hashlib.sha256(
     uuid5(uuid4(), str(uuid1())))
 
 
+def process_key(key: Union[str, bytes, bitarray, int, None],
+                salt=None,
+                rounds=None) -> bitarray:
+  """
+  Process a key for encryption or decryption
+  """
+  final_key = bitarray()
+  if rounds == None:
+    rounds = (int(key[:15].to01(), 2) + 100) * 2
+  x = pbkdf2_sha512.hash(key.tobytes(),
+                         rounds=rounds,
+                         salt=salt if salt else key.tobytes()).split('$')[-1]
+  final_key.frombytes(ab64_decode(x))
+  return final_key
+
+
 def encrypt(data: Union[str, bytes, bitarray, int],
             key: Union[str, bytes, bitarray, int, None] = None,
             final_key: Union[bitarray, None] = None,
@@ -29,13 +45,7 @@ def encrypt(data: Union[str, bytes, bitarray, int],
       raise ValueError("Either key OR final_key must be provided.")
     else:
       key = to_bitarray(key)
-    final_key = bitarray()
-    if rounds == None:
-      rounds = (int(key[:15].to01(), 2) + 100) * 2
-    x = pbkdf2_sha512.hash(key.tobytes(),
-                           rounds=rounds,
-                           salt=salt if salt else key.tobytes()).split('$')[-1]
-    final_key.frombytes(ab64_decode(x))
+    final_key = process_key(key, salt, rounds)
   if len(final_key) > len(data):
     final_key = final_key[-len(data):]
   while len(final_key) < len(data):
@@ -62,11 +72,7 @@ def decrypt(encrypted_data: Union[str, bytes, bitarray, int],
       key = to_bitarray(key)
     if rounds == None:
       rounds = (int(key[:15].to01(), 2) + 100) * 2
-    final_key = bitarray()
-    x = pbkdf2_sha512.hash(key.tobytes(),
-                           rounds=rounds,
-                           salt=salt if salt else key.tobytes()).split('$')[-1]
-    final_key.frombytes(ab64_decode(x))
+    final_key = process_key(key, salt, rounds)
   encrypted_data.reverse()
   encrypted_data.bytereverse()
   if len(final_key) > len(encrypted_data):

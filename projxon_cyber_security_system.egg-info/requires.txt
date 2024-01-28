@@ -1,5 +1,3 @@
 bitarray
 passlib
-hashlib
-base64
 uuid

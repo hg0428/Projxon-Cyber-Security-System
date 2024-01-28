@@ -20,6 +20,7 @@ def process_key(key: Union[str, bytes, bitarray, int, None],
   """
   Process a key for encryption or decryption
   """
+  key = to_bitarray(key)
   final_key = bitarray()
   if rounds == None:
     rounds = (int(key[:15].to01(), 2) + 100) * 2
@@ -45,7 +46,7 @@ def encrypt(data: Union[str, bytes, bitarray, int],
       raise ValueError("Either key OR final_key must be provided.")
     else:
       key = to_bitarray(key)
-    final_key = process_key(key, salt, rounds)
+      final_key = process_key(key, salt, rounds)
   if len(final_key) > len(data):
     final_key = final_key[-len(data):]
   while len(final_key) < len(data):

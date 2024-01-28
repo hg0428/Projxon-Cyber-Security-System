@@ -1,8 +1,8 @@
 Metadata-Version: 2.1
 Name: projxon-cyber-security-system
-Version: 0.3.0
+Version: 0.3.3
 Summary: A fast and unbreakable encrytion system.
-Download-URL: https://github.com/hg0428/Projxon-Cyber-Security-System/archive/refs/tags/stable-0.3.tar.gz
+Download-URL: https://github.com/hg0428/Projxon-Cyber-Security-System/archive/refs/tags/stable-0.3.1.tar.gz
 Author: Hudson Gouge
 Classifier: Intended Audience :: Developers
 Classifier: Topic :: Software Development :: Build Tools
